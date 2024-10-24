@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .Container {
+            background-color: dodgerblue;
+            width: 300px;
+            border-radius: 20px;
+            padding: 8px;
+            color: white;
+        }
+
+        .First {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            height: auto;
+            color: white;
+            padding: 10px;
+            /* background-color: red; */
+
+        }
+
+        .Second {
+            display: block;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .Hourly {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100px;
+            /* background-color: red; */
+        }
+
+        .Third {
+            display: block;
+            height: auto;
+        }
+
+        hr {
+            margin: 0;
+            opacity: 0.6;
+        }
+
+
+        .LocationArrow {
+            width: 15px;
+            color: white;
+        }
+
+        .Daily {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: space-between;
+            
+            padding-bottom: 5px;
+
+        }
+        
+
+        .Bar {
+            background-color: gold;
+            width: 100px;
+            height: 6px;
+            border-radius: 5px;
+        }
+
+        .DayName {
+            width: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="Container">
+
+        <div class="First">
+            <div class="City">
+                <div style="margin-bottom: 10px;">
+                    Cairo
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" height="1em" width="1em"
+                        style="fill:white">
+                        <path
+                            d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
+                    </svg>
+                </div>
+
+                <div>
+                    27°
+                </div>
+            </div>
+
+            <div>
+                ༄｡°
+                <div style="margin-bottom: 10px;">
+                    Windy
+                    <img src="assets/windy-icon.png" alt="windy" class="src" width="15px" height="15px">
+                </div>
+                <div>
+                    H:28° L:16°
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="Second">
+
+            <div class="Hourly">
+                <div>
+                    16
+                </div>
+                ༄｡°
+                <div>
+                    27°
+                </div>
+            </div>
+            <div class="Hourly">
+                <div>
+                    17
+                </div>
+                ༄｡°
+                <div>
+                    27°
+                </div>
+            </div>
+            <div class="Hourly">
+                <div>
+                    18
+                </div>
+                ༄｡°
+                <div>
+                    27°
+                </div>
+            </div>
+            <div class="Hourly">
+                <div>
+                    19
+                </div>
+                🌤
+                <div>
+                    27°
+                </div>
+            </div>
+            <div class="Hourly">
+                <div>
+                    20
+                </div>
+                ࣪ ִֶָ☾.
+                <div>
+                    27°
+                </div>
+            </div>
+            <div class="Hourly">
+                <div>
+                    21
+                </div>
+                ࣪ ִֶָ☾.
+                <div>
+                    27°
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="Third">
+            <div class="Daily">
+
+                <div class="DayName">Wed</div>
+                ☀️
+                16°
+
+                <div class="Bar"></div>
+
+                27°
+            </div>
+            <div class="Daily">
+
+                <div class="DayName">Thu</div>
+
+                ☀️
+                15°
+
+                <div class="Bar"></div>
+
+                28°
+            </div>
+            <div class="Daily">
+                <div class="DayName">Fri</div>
+
+                ☀️
+                14°
+
+                <div class="Bar"></div>
+
+                28°
+            </div>
+            <div class="Daily">
+                <div class="DayName">Sat</div>
+                ☀️
+                14°
+
+                <div class="Bar"></div>
+
+                28°
+            </div>
+            <div class="Daily">
+                <div class="DayName">Sun</div>
+                ☀️
+                16°
+
+                <div class="Bar"></div>
+
+                28°
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
