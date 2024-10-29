@@ -3,6 +3,7 @@
 @using OpenMeteo
 @using WeatherBlazor.Utils
 @rendermode InteractiveServer
+@inject OpenMeteo.OpenMeteoClient client
 
 <PageTitle>Home</PageTitle>
 
@@ -43,9 +44,6 @@ Weather app
     protected override async Task OnInitializedAsync()
     {
 
-        // There is no need to create multiple clients.
-        OpenMeteo.OpenMeteoClient client = new OpenMeteo.OpenMeteoClient();
-
         // Make a new api call to get the current weather in tokyo
 
         var options = new WeatherForecastOptions();
@@ -56,8 +54,6 @@ Weather app
 
         WeatherForecast weatherData = await client.QueryAsync("Cairo", options);
 
-
-        Console.WriteLine(weatherData.ToString());
         this.WeatherDaily = new WeatherDaily(weatherData.Daily);
         this.WeatherHourly = new WeatherHourly(weatherData.Hourly);
 

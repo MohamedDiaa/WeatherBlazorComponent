@@ -1,10 +1,13 @@
 using WeatherBlazor.Components;
+using OpenMeteo;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddSingleton<OpenMeteo.OpenMeteoClient>();
 
 var app = builder.Build();
 
