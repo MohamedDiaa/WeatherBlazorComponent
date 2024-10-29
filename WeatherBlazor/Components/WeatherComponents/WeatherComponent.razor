@@ -3,12 +3,16 @@
 @using WeatherBlazor.Utils
 @inject OpenMeteo.OpenMeteoClient client
 
-@if(Daily == null) 
+@if(ErrorMessage != null) {
+    <div> Error: @ErrorMessage </div>
+}
+else @if(Daily == null)
 {
     <div> Weather data is loading</div>
 }
-else {
-<div class="Container">
+else
+{
+    <div class="Container">
 
     <div class="First">
         <div class="City">
@@ -22,7 +26,7 @@ else {
             </div>
 
             <div>
-               @Temperature°
+                @Temperature°
             </div>
         </div>
 
@@ -40,51 +44,53 @@ else {
     <hr>
     <div class="Second">
         @if (Hourly != null)
-        {
-            @for (int i = 0; i < Hourly.Time.Count(); i++)
             {
-                <div class="Hourly">
-                    <div>
-                        @Hourly.Time[i]
+                @for (int i = 0; i < Hourly.Time.Count(); i++)
+                {
+                    <div class="Hourly">
+                        <div>
+                            @Hourly.Time[i]
+                        </div>
+                        ༄｡°
+                        <div>
+                            @Hourly.Apparent_temperature[i]
+                        </div>
                     </div>
-                    ༄｡°
-                    <div>
-                        @Hourly.Apparent_temperature[i]
-                    </div>
-                </div>
+                }
             }
-        }
-    </div>
-    <hr>
-    <div class="Third">
-        @if (Daily != null)
-        {
-            @for (int i = 0; i < Daily.Time.Count(); i++)
+        </div>
+        <hr>
+        <div class="Third">
+            @if (Daily != null)
             {
-                <div class="Daily">
+                @for (int i = 0; i < Daily.Time.Count(); i++)
+                {
+                    <div class="Daily">
 
-                    <div class="DayName"> @Daily.Time[i]</div>
-                    ☀️
-                    @Daily.Apparent_temperature_min[i]°
+                        <div class="DayName"> @Daily.Time[i]</div>
+                        ☀️
+                        @Daily.Apparent_temperature_min[i]°
 
-                    <div class="Bar"></div>
+                        <div class="Bar"></div>
 
-                    @Daily.Apparent_temperature_max[i]°
-                </div>
+                        @Daily.Apparent_temperature_max[i]°
+                    </div>
 
+                }
             }
-        }
+        </div>
     </div>
-</div>
 }
 @code {
 
     protected float? Temperature { get; set; }
     public string Units { get; set; }
-    public WeatherDaily? Daily {get; set;}
-    public WeatherHourly? Hourly {get; set;}
+    public WeatherDaily? Daily { get; set; }
+    public WeatherHourly? Hourly { get; set; }
 
-      public OpenMeteo.Current? Current { get; set; }
+    public OpenMeteo.Current? Current { get; set; }
+
+    public string ErrorMessage { get; set; }
     protected override async Task OnInitializedAsync()
     {
 
@@ -97,11 +103,17 @@ else {
 
 
         WeatherForecast weatherData = await client.QueryAsync("Cairo", options);
-
-        this.Hourly = new WeatherHourly(weatherData.Hourly);
-        this.Daily = new WeatherDaily(weatherData.Daily);
-        this.Temperature = weatherData.Current.Temperature;
-        this.Units = weatherData.CurrentUnits.Temperature;
+        if (weatherData != null)
+        {
+            this.Hourly = new WeatherHourly(weatherData.Hourly);
+            this.Daily = new WeatherDaily(weatherData.Daily);
+            this.Temperature = weatherData.Current.Temperature;
+            this.Units = weatherData.CurrentUnits.Temperature;
+        }
+        else
+        {
+            ErrorMessage = "Failed to load Weather data";
+        }
 
         return;
     }

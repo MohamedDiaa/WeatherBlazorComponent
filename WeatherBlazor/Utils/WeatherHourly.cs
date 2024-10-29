@@ -11,23 +11,17 @@ public class WeatherHourly
 
     public WeatherHourly(OpenMeteo.Hourly hourly)
     {
-
-
-        List<string> list = new();
-
-        foreach (var time in hourly.Time)
-        {
         try {
-                 DateTime result = DateTime.ParseExact(time, "yyyy-MM-ddTHH:mm" , CultureInfo.InvariantCulture);
-                var showTime = result.ToLocalTime().ToShortTimeString();
-                   list.Add(showTime);
-            }
-            catch {
-                list.Add(time);
-            }
-       
+         var filteredTime = hourly.Time
+        .Select(time =>  DateTime.ParseExact(time, "yyyy-MM-ddTHH:mm" , CultureInfo.InvariantCulture))
+        .Where(d =>  d.ToLocalTime().Subtract(DateTime.Now).Hours < 5  &&   d.ToLocalTime().Subtract(DateTime.Now).Hours > 0 )
+        .Select(d => d.ToLocalTime().ToShortTimeString()).ToArray();
+        this.Time = filteredTime;
         }
-        this.Time = list.ToArray();
+        catch {
+            this.Time = hourly.Time;
+        }
+       
         this.Apparent_temperature = hourly.Apparent_temperature.Select(t => (int)t).ToArray();
 
     }
