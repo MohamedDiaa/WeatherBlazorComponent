@@ -3,6 +3,11 @@
 @using WeatherBlazor.Utils
 @inject OpenMeteo.OpenMeteoClient client
 
+@if(Daily == null) 
+{
+    <div> Weather data is loading</div>
+}
+else {
 <div class="Container">
 
     <div class="First">
@@ -17,18 +22,18 @@
             </div>
 
             <div>
-                27°
+               @Temperature°
             </div>
         </div>
 
         <div>
-            ༄｡°
+            ༄｡
             <div style="margin-bottom: 10px;">
                 Windy
                 <img src="assets/windy-icon.png" alt="windy" class="src" width="15px" height="15px">
             </div>
             <div>
-                H:28° L:16°
+                L:@Daily.Apparent_temperature_min[0]° H:@Daily.Apparent_temperature_max[0]°
             </div>
         </div>
     </div>
@@ -40,7 +45,7 @@
             {
                 <div class="Hourly">
                     <div>
-                        @Hourly.Time[i];
+                        @Hourly.Time[i]
                     </div>
                     ༄｡°
                     <div>
@@ -71,7 +76,7 @@
         }
     </div>
 </div>
-
+}
 @code {
 
     protected float? Temperature { get; set; }

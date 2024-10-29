@@ -7,7 +7,7 @@ public class WeatherHourly
 {
 
     public string[] Time { get; set; }
-    public float?[] Apparent_temperature { get; set; }
+    public int[] Apparent_temperature { get; set; }
 
     public WeatherHourly(OpenMeteo.Hourly hourly)
     {
@@ -28,7 +28,7 @@ public class WeatherHourly
        
         }
         this.Time = list.ToArray();
-        this.Apparent_temperature = hourly.Apparent_temperature;
+        this.Apparent_temperature = hourly.Apparent_temperature.Select(t => (int)t).ToArray();
 
     }
 }

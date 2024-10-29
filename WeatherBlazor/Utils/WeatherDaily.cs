@@ -7,8 +7,8 @@ using System.Globalization;
 public class WeatherDaily
 {
     public string[] Time { get; set; }
-    public float[] Apparent_temperature_max { get; set; }
-    public float[] Apparent_temperature_min { get; set; }
+    public int[] Apparent_temperature_max { get; set; }
+    public int[] Apparent_temperature_min { get; set; }
 
     public WeatherDaily(OpenMeteo.Daily daily)
     {
@@ -30,8 +30,10 @@ public class WeatherDaily
             }
         }
         this.Time = list.ToArray();
-        this.Apparent_temperature_max = daily.Apparent_temperature_max;
-        this.Apparent_temperature_min = daily.Apparent_temperature_min;
+
+          this.Apparent_temperature_max = daily.Apparent_temperature_max.Select(t =>  (int)t).ToArray();
+
+        this.Apparent_temperature_min = daily.Apparent_temperature_min.Select(t => (int)t).ToArray();
 
     }
 }
