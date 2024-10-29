@@ -14,8 +14,9 @@ public class WeatherHourly
         try {
          var filteredTime = hourly.Time
         .Select(time =>  DateTime.ParseExact(time, "yyyy-MM-ddTHH:mm" , CultureInfo.InvariantCulture))
-        .Where(d =>  d.ToLocalTime().Subtract(DateTime.Now).Hours < 5  &&   d.ToLocalTime().Subtract(DateTime.Now).Hours > 0 )
-        .Select(d => d.ToLocalTime().ToShortTimeString()).ToArray();
+        .Where(d =>  d.ToLocalTime().Subtract(DateTime.Now).TotalHours < 5  &&   d.ToLocalTime().Subtract(DateTime.Now).TotalHours > 0 )
+        .Select(d => d.ToLocalTime().Hour)
+        .Select(h => h >= 10 ? $"{h}" : $"0{h}" ).ToArray();
         this.Time = filteredTime;
         }
         catch {
