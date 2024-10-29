@@ -93,7 +93,7 @@
 
         WeatherForecast weatherData = await client.QueryAsync("Cairo", options);
 
-     //   this.Hourly = new WeatherHourly(weatherData.Hourly);
+        this.Hourly = new WeatherHourly(weatherData.Hourly);
         this.Daily = new WeatherDaily(weatherData.Daily);
         this.Temperature = weatherData.Current.Temperature;
         this.Units = weatherData.CurrentUnits.Temperature;

@@ -17,15 +17,14 @@ public class WeatherHourly
 
         foreach (var time in hourly.Time)
         {
-
-  list.Add(time);
-            // try {
-            //      DateTime result = DateTime.ParseExact(time, "yyyy-MM-ddTHH:mm" , CultureInfo.InvariantCulture);
-            //        list.Add( $"{result.Hour}");
-            // }
-            // catch {
-            //     list.Add(time);
-            // }
+        try {
+                 DateTime result = DateTime.ParseExact(time, "yyyy-MM-ddTHH:mm" , CultureInfo.InvariantCulture);
+                var showTime = result.ToLocalTime().ToShortTimeString();
+                   list.Add(showTime);
+            }
+            catch {
+                list.Add(time);
+            }
        
         }
         this.Time = list.ToArray();
