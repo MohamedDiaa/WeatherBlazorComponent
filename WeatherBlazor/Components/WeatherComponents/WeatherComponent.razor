@@ -1,0 +1,103 @@
+@using OpenMeteo
+@rendermode InteractiveServer
+
+<div class="Container">
+
+    <div class="First">
+        <div class="City">
+            <div style="margin-bottom: 10px;">
+                Cairo
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" height="1em" width="1em"
+                    style="fill:white">
+                    <path
+                        d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
+                </svg>
+            </div>
+
+            <div>
+                27°
+            </div>
+        </div>
+
+        <div>
+            ༄｡°
+            <div style="margin-bottom: 10px;">
+                Windy
+                <img src="assets/windy-icon.png" alt="windy" class="src" width="15px" height="15px">
+            </div>
+            <div>
+                H:28° L:16°
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="Second">
+        @if (Hourly != null)
+        {
+            @for (int i = 0; i < Hourly.Time.Count(); i++)
+            {
+                <div class="Hourly">
+                    <div>
+                        @Hourly.Time[i];
+                    </div>
+                    ༄｡°
+                    <div>
+                        @Hourly.Apparent_temperature[i]
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <hr>
+    <div class="Third">
+        @if (Daily != null)
+        {
+            @for (int i = 0; i < Daily.Time.Count(); i++)
+            {
+                <div class="Daily">
+
+                    <div class="DayName"> Daily.Time[i]</div>
+                    ☀️
+                    @Daily.Apparent_temperature_min[i]°
+
+                    <div class="Bar"></div>
+
+                    @Daily.Apparent_temperature_max[i]°
+                </div>
+
+            }
+        }
+    </div>
+</div>
+
+@code {
+
+    protected float? Temperature { get; set; }
+    public string Units { get; set; }
+    public OpenMeteo.Daily? Daily { get; set; }
+    public OpenMeteo.Hourly? Hourly { get; set; }
+      public OpenMeteo.Current? Current { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+
+        // There is no need to create multiple clients.
+        OpenMeteo.OpenMeteoClient client = new OpenMeteo.OpenMeteoClient();
+
+        // Make a new api call to get the current weather in tokyo
+
+        var options = new WeatherForecastOptions();
+        options.Current = CurrentOptions.All;
+        options.Hourly = HourlyOptions.All;
+        options.Daily = DailyOptions.All;
+
+
+        WeatherForecast weatherData = await client.QueryAsync("Cairo", options);
+
+        this.Hourly = weatherData.Hourly;
+        this.Daily = weatherData.Daily;
+        this.Temperature = weatherData.Current.Temperature;
+        this.Units = weatherData.CurrentUnits.Temperature;
+
+        return;
+    }
+}
