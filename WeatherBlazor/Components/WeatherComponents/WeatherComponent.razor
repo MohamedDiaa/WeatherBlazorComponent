@@ -1,5 +1,6 @@
 @using OpenMeteo
 @rendermode InteractiveServer
+@using WeatherBlazor.Utils
 
 <div class="Container">
 
@@ -56,7 +57,7 @@
             {
                 <div class="Daily">
 
-                    <div class="DayName"> Daily.Time[i]</div>
+                    <div class="DayName"> @Daily.Time[i]</div>
                     ☀️
                     @Daily.Apparent_temperature_min[i]°
 
@@ -74,8 +75,9 @@
 
     protected float? Temperature { get; set; }
     public string Units { get; set; }
-    public OpenMeteo.Daily? Daily { get; set; }
-    public OpenMeteo.Hourly? Hourly { get; set; }
+    public WeatherDaily? Daily {get; set;}
+    public WeatherHourly? Hourly {get; set;}
+
       public OpenMeteo.Current? Current { get; set; }
     protected override async Task OnInitializedAsync()
     {
@@ -93,8 +95,8 @@
 
         WeatherForecast weatherData = await client.QueryAsync("Cairo", options);
 
-        this.Hourly = weatherData.Hourly;
-        this.Daily = weatherData.Daily;
+        this.Hourly = new WeatherHourly(weatherData.Hourly);
+        this.Daily = new WeatherDaily(weatherData.Daily);
         this.Temperature = weatherData.Current.Temperature;
         this.Units = weatherData.CurrentUnits.Temperature;
 

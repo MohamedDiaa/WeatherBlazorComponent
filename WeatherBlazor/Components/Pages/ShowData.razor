@@ -1,0 +1,69 @@
+@page "/showdata"
+
+@using OpenMeteo
+@using WeatherBlazor.Utils
+@rendermode InteractiveServer
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+Weather app
+
+<div> @Temperature @Units </div>
+
+@if (WeatherDaily != null)
+{
+    @for (int i = 0; i < WeatherDaily.Time.Count(); i++)
+    {
+
+
+        <div> @WeatherDaily.Time[i] :  @WeatherDaily.Apparent_temperature_min[i] -> @WeatherDaily.Apparent_temperature_max[i]</div>
+    }
+}
+
+
+@if (WeatherHourly != null)
+{
+    @for (int i = 0; i < WeatherHourly.Time.Count(); i++)
+    {
+
+        <div> @WeatherHourly.Time[i] :  @WeatherHourly.Apparent_temperature[i] </div>
+    }
+}
+
+@code {
+
+    protected float? Temperature { get; set; }
+    public string Units { get; set; }
+    public WeatherDaily? WeatherDaily {get; set;}
+    public WeatherHourly? WeatherHourly {get; set;}
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        // There is no need to create multiple clients.
+        OpenMeteo.OpenMeteoClient client = new OpenMeteo.OpenMeteoClient();
+
+        // Make a new api call to get the current weather in tokyo
+
+        var options = new WeatherForecastOptions();
+        options.Current = CurrentOptions.All;
+        options.Hourly = HourlyOptions.All;
+        options.Daily = DailyOptions.All;
+
+
+        WeatherForecast weatherData = await client.QueryAsync("Cairo", options);
+
+
+        Console.WriteLine(weatherData.ToString());
+        this.WeatherDaily = new WeatherDaily(weatherData.Daily);
+        this.WeatherHourly = new WeatherHourly(weatherData.Hourly);
+
+        this.Temperature = weatherData.Current.Temperature;
+        this.Units = weatherData.CurrentUnits.Temperature;
+
+        return;
+    }
+}

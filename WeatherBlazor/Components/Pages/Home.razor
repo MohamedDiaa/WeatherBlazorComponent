@@ -1,5 +1,7 @@
 ﻿@page "/"
-@using OpenMeteo;
+@using OpenMeteo
+@using WeatherBlazor.Utils
+@rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
@@ -7,60 +9,3 @@
 
 Welcome to your new app.
 Weather app
-
-<div> @Temperature @Units </div>
-
-@if (Daily != null)
-{
-    @for (int i = 0; i < Daily.Time.Count(); i++)
-    {
-
-        <div> @Daily.Time[i] :  @Daily.Apparent_temperature_min[i] -> @Daily.Apparent_temperature_max[i]</div>
-    }
-}
-
-
-@if (Hourly != null)
-{
-    @for (int i = 0; i < Hourly.Time.Count(); i++)
-    {
-
-        <div> @Hourly.Time[i] :  @Hourly.Apparent_temperature[i] </div>
-    }
-}
-
-@code {
-
-    protected float? Temperature { get; set; }
-    public string Units { get; set; }
-    public OpenMeteo.Daily? Daily {get; set; }
-   public OpenMeteo.Hourly? Hourly {get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-
-        // There is no need to create multiple clients.
-        OpenMeteo.OpenMeteoClient client = new OpenMeteo.OpenMeteoClient();
-
-        // Make a new api call to get the current weather in tokyo
-
-        var options = new WeatherForecastOptions();
-        options.Current = CurrentOptions.All;
-        options.Hourly = HourlyOptions.All;
-        options.Daily = DailyOptions.All;
-
-
-        WeatherForecast weatherData = await client.QueryAsync("Cairo", options);
-
-        this.Hourly = weatherData.Hourly;
-        this.Daily = weatherData.Daily;
-        this.Temperature = weatherData.Current.Temperature;
-        this.Units = weatherData.CurrentUnits.Temperature;
-        // Output the current weather to console
-        Console.WriteLine("Weather in Tokyo: " + weatherData.Current.Temperature + weatherData.CurrentUnits.Temperature);
-
-        // Output: "Weather in Tokyo: 28.1°C
-
-        return;
-    }
-}
